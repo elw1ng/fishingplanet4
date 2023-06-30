@@ -221,16 +221,16 @@ class ClassName(BaseScript):  # Название класса (должен от
                 result = False
         return result
 
-    def imgfind(self, large_image, small_img, mask, conf=0.76, loc = False ):
+    def imgfind(self, large_image, small_img, mask, conf=0.8, loc = False ):
 
         # Read the images from the file
         small_image = cv.imread(small_img)
         mask = cv.imread(mask)
-        method = cv.TM_CCORR_NORMED
+        method = cv.TM_CCOEFF_NORMED
         result = cv.matchTemplate(large_image, small_image, method, None, mask)
         # We want the minimum squared difference
-        mn, mx, mnLoc, mxLoc = cv.minMaxLoc(result)
-        print(mx,mn)
+        _, mx, _, mxLoc = cv.minMaxLoc(result)
+        print(mx)
         if mx > conf and mx < 1.1:
             self.NoAnsweredThecalltime = time()
             if loc:
@@ -240,7 +240,6 @@ class ClassName(BaseScript):  # Название класса (должен от
             if loc:
                 return None
             return False
-
     def blackScreenDetect(self):
 
         # Read the images from the file
@@ -302,7 +301,7 @@ class ClassName(BaseScript):  # Название класса (должен от
     def custom(self):
 
         self.getNextFrame()
-        self.reequip()
+        #self.reequip()
         sleep(1)
         Prediction = self.model.predict(source=self.img, device=0, conf=0.2, imgsz=640, batch=4)
         losted = False
@@ -327,7 +326,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         ###
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640,batch=4)
                     print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
-                    if Prediction[0].probs.top1 == 2 or (Prediction[0].probs.top1 == 1 and Prediction[0].probs.top5[1] == 2):
+                    if Prediction[0].probs.top1 == 2 or (Prediction[0].probs.top1 == 1 and Prediction[0].probs.top5[1] == 2 and Prediction[0].probs.top5conf[1] > 0.35):
                         print("PULL")
                         self.lkmpress()
                         break
