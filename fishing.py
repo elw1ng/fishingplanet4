@@ -311,7 +311,7 @@ class ClassName(BaseScript):  # Название класса (должен от
             while not losted:
 
                 self.lkmpress()
-                sleep(0.4)
+                sleep(0.1)
                 self.lkmrelease()
                 sleep(3.5)
                 while not losted:
@@ -326,7 +326,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         ###
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640,batch=4)
                     print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
-                    if Prediction[0].probs.top1 == 2 or (Prediction[0].probs.top1 == 1 and Prediction[0].probs.top5[1] == 2 and Prediction[0].probs.top5conf[1] > 0.35):
+                    if (Prediction[0].probs.top1 == 2 and Prediction[0].probs.top1conf > 0.55) or (Prediction[0].probs.top1 == 1 and Prediction[0].probs.top5[1] == 2 and Prediction[0].probs.top5conf[1] > 0.49):
                         print("PULL")
                         self.lkmpress()
                         break
