@@ -310,7 +310,7 @@ class ClassName(BaseScript):  # Название класса (должен от
             while not losted:
 
                 self.lkmpress()
-                sleep(0.1)
+                sleep(0.001)
                 self.lkmrelease()
                 sleep(3.5)
                 while not losted:
