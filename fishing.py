@@ -33,7 +33,6 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.mousereturn = [0, 0]
         self.model = YOLO("fishingNEW.pt")  # load a pretrained YOLOv8n model
         #self.model = YOLO("bestOUTDOORnew.pt")  # load a pretrained YOLOv8n model
-        Prediction = self.model.predict(source="asd.mp4", device=0, conf=0.2, imgsz=640, batch=4)
         # Get rect of Window
         self.hwnd = win32gui.FindWindow(None, 'Mortal Online 2  ')
         # hwnd = win32gui.FindWindow("UnrealWindow", None) # Fortnite
