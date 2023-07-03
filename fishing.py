@@ -325,7 +325,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         ###
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640,batch=2,show = True)
                     print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
-                    if Prediction[0].probs.top1 >= 2 and ((Prediction[0].probs.top1conf> 0.55) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.55 and Prediction[0].probs.top5conf[1]>=2)):
+                    if Prediction[0].probs.top1 >= 2 and ((Prediction[0].probs.top1conf> 0.65 and Prediction[0].probs.top1 ==2 ) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.75 and Prediction[0].probs.top5conf[1]>=2)):
                         print("PULL")
                         self.lkmpress()
                         break
