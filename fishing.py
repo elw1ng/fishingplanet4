@@ -358,7 +358,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         break
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640, batch=2)
                     print(Prediction[0].probs.top1, Prediction[0].probs.top1conf)
-                    if Prediction[0].probs.top1 == 0  or (Prediction[0].probs.top1 == 1 and Prediction[0].probs.top5[1] == 0):
+                    if Prediction[0].probs.top1 < 3:
                         counter+=1
 
                     else:
