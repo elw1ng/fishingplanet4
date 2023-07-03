@@ -19,7 +19,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         """                   Ключи - Обязательное                   """
 
-        self.name = "fluxing"  # имя в базе ключей
+        self.name = "fluxingNEW"  # имя в базе ключей
         #self.keys = self.keys_data[self.name]  # загрузка настройки всех ключей данного скрипта
         #self.keyActivate = self.keys["activate_key"]  # кнопка активации скрипта
         # обязательно скопировать ключ-значение "base", и переименовать согласно значению в self.name
@@ -324,9 +324,9 @@ class ClassName(BaseScript):  # Название класса (должен от
                         losted=True
                         break
                         ###
-                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640,batch=4)
+                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640,batch=2,show = True)
                     print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
-                    if (Prediction[0].probs.top1 == 2 and Prediction[0].probs.top1conf > 0.55) or (Prediction[0].probs.top1 == 1 and Prediction[0].probs.top5[1] == 2 and Prediction[0].probs.top5conf[1] > 0.49):
+                    if Prediction[0].probs.top1 >= 2 and ((Prediction[0].probs.top1conf> 0.55) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.55 and Prediction[0].probs.top5conf[1]>=2)):
                         print("PULL")
                         self.lkmpress()
                         break
