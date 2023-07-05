@@ -335,7 +335,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                     print("LOST YOUR BAIT")
                     losted = True
                     break
-                sleep(3)
+                sleep(2)
                 counter =0
                 pkmtimer = time()
                 while not losted:
