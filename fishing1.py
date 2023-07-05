@@ -206,6 +206,59 @@ class ClassName(BaseScript):  # Название класса (должен от
             return True
         else:
             return False
+
+    def delete_t1t1(self):
+
+        # Read the images from the file
+        img = self.fullimg[40:280, 0:300]
+        mxLoc = self.imgfind(img, "t1t1.png", "t1t1mask.png",loc=True,conf=0.9)
+        if  mxLoc is not None:
+            self.hold('alt')
+            self.mousemove(mxLoc[0]-320 +10,mxLoc[1]-320+40 +10)
+            sleep(0.5)
+            self.pkmpress()
+            sleep(0.1)
+            self.pkmrelease()
+            self.release('alt')
+            sleep(0.1)
+            self.press('z')
+            sleep(0.1)
+            self.press('z')
+            sleep(0.1)
+            self.mousemove( 278 - 320,  356- 320)
+            sleep(0.1)
+            self.lkmpress()
+            sleep(0.001)
+            self.lkmrelease()
+            return True
+        else:
+            return False
+    def delete_at1t1(self):
+
+        # Read the images from the file
+        img = self.fullimg[80:280, 0:200]
+        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.9)
+        if  mxLoc is not None:
+            self.hold('alt')
+            self.mousemove(mxLoc[0]-320 +10,mxLoc[1]-320+80 +10)
+            sleep(0.5)
+            self.pkmpress()
+            sleep(0.1)
+            self.pkmrelease()
+            self.release('alt')
+            sleep(0.1)
+            self.press('z')
+            sleep(0.1)
+            self.press('z')
+            sleep(0.1)
+            self.mousemove( 278 - 320,  356- 320)
+            sleep(0.1)
+            self.lkmpress()
+            sleep(0.001)
+            self.lkmrelease()
+            return True
+        else:
+            return False
     def checklowmana(self , percentage = None , ignoresafemode = False ):
         result = True
         if not self.safeMode and not ignoresafemode:
@@ -241,6 +294,25 @@ class ClassName(BaseScript):  # Название класса (должен от
                 return None
             return False
 
+    def imgfindccorr(self, large_image, small_img, mask, conf=0.99, loc = False ):
+
+        # Read the images from the file
+        small_image = cv.imread(small_img)
+        mask = cv.imread(mask)
+        method = cv.TM_SQDIFF
+        result = cv.matchTemplate(large_image, small_image, method, None, mask)
+        # We want the minimum squared difference
+        mn, mx, mnLoc, mxLoc = cv.minMaxLoc(result)
+        print(mn,mx)
+        if 1-mn > conf and mn > 0:
+            self.NoAnsweredThecalltime = time()
+            if loc:
+                return mnLoc
+            return True
+        else:
+            if loc:
+                return None
+            return False
     def blackScreenDetect(self):
 
         # Read the images from the file
@@ -299,6 +371,20 @@ class ClassName(BaseScript):  # Название класса (должен от
             else:
                 win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, x, y, 0, 0)
                 sleep(timer)
+
+    def delete(self):
+        self.press('z')
+        sleep(0.2)
+        self.delete_t1t1()
+        sleep(0.2)
+        self.press('z')
+        sleep(0.2)
+        self.press('z')
+        sleep(0.2)
+        self.delete_at1t1()
+        sleep(0.2)
+        self.press('z')
+        sleep(0.2)
     def custom(self):
 
         self.getNextFrame()
@@ -373,7 +459,9 @@ class ClassName(BaseScript):  # Название класса (должен от
                     print("LOST YOUR BAIT")
                     losted = True
                     break
-                sleep(1)
+                sleep(0.3)
+                self.delete()
+                sleep(0.5)
                 #sleep(1)
             sleep(5)
             self.reequip()
