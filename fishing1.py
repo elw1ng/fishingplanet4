@@ -211,7 +211,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[40:280, 0:300]
-        mxLoc = self.imgfind(img, "t1t1.png", "t1t1mask.png",loc=True,conf=0.9)
+        mxLoc = self.imgfind(img, "t1t1.png", "t1t1mask.png",loc=True,conf=0.89)
         if  mxLoc is not None:
             self.hold('alt')
             self.mousemove(mxLoc[0]-320 +10,mxLoc[1]-320+40 +10)
@@ -389,9 +389,6 @@ class ClassName(BaseScript):  # Название класса (должен от
     def custom(self):
 
         self.getNextFrame()
-        sleep(0.5)
-        self.delete()
-        sleep(0.5)
         #self.reequip()
         sleep(1)
         Prediction = self.model.predict(source=self.img, device=0, conf=0.2, imgsz=640, batch=4)
