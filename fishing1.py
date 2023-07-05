@@ -459,7 +459,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                     print("LOST YOUR BAIT")
                     losted = True
                     break
-                sleep(0.3)
+                sleep(0.5)
                 self.delete()
                 sleep(0.5)
                 #sleep(1)
