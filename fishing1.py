@@ -79,7 +79,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         '''
         img = cv.cvtColor(img, cv.COLOR_RGB2BGR)
         self.fullimg = img
-        self.img = img[170:(640-246),244:(640-172)]
+        self.img = img[192:(192+224),256:(256+224)]
 
     def _debug(self, text):
         if self.debug:
@@ -302,8 +302,9 @@ class ClassName(BaseScript):  # Название класса (должен от
     def custom(self):
 
         self.getNextFrame()
+        #self.reequip()
         sleep(1)
-        Prediction = self.model.predict(source=self.img, device=0, conf=0.2, imgsz=640, batch=8)
+        Prediction = self.model.predict(source=self.img, device=0, conf=0.2, imgsz=640, batch=4)
         losted = False
         #self.camera.start(region=(8+self.rect[0], 31+self.rect[1], 640+self.rect[0]-8, 640+self.rect[1]-31), target_fps=self.target_fps)
         while True:
@@ -311,7 +312,7 @@ class ClassName(BaseScript):  # Название класса (должен от
             while not losted:
 
                 self.lkmpress()
-                sleep(0.4)
+                sleep(0.001)
                 self.lkmrelease()
                 sleep(3.5)
                 while not losted:
@@ -324,9 +325,9 @@ class ClassName(BaseScript):  # Название класса (должен от
                         losted=True
                         break
                         ###
-                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=224,batch=2,show = True)
+                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640,batch=2,show = True)
                     print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
-                    if Prediction[0].probs.top1 == 2 or (Prediction[0].probs.top1 == 1 and Prediction[0].probs.top5[1] == 2 and Prediction[0].probs.top5conf[1] > 0.15):
+                    if Prediction[0].probs.top1 >= 2 and ((Prediction[0].probs.top1conf> 0.65 and Prediction[0].probs.top1 ==2 ) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.75 and Prediction[0].probs.top5conf[1]>=2)):
                         print("PULL")
                         self.lkmpress()
                         break
@@ -357,9 +358,9 @@ class ClassName(BaseScript):  # Название класса (должен от
                         print("LOST YOUR BAIT")
                         losted = True
                         break
-                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=224, batch=2)
+                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640, batch=2)
                     print(Prediction[0].probs.top1, Prediction[0].probs.top1conf)
-                    if Prediction[0].probs.top1 == 0:
+                    if Prediction[0].probs.top1 < 2:
                         counter+=1
 
                     else:
