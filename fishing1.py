@@ -31,7 +31,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         """ Кастомные атрибуты писать здесь """
         self.debug = True
         self.mousereturn = [0, 0]
-        self.model = YOLO("fishing1.pt")  # load a pretrained YOLOv8n model
+        self.model = YOLO("fishingcrop.pt")  # load a pretrained YOLOv8n model
         #self.model = YOLO("bestOUTDOORnew.pt")  # load a pretrained YOLOv8n model
 
         # Get rect of Window
