@@ -243,7 +243,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.65)
+        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.75)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
