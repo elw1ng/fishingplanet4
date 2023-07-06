@@ -389,12 +389,12 @@ class ClassName(BaseScript):  # Название класса (должен от
 
     def delete(self):
         self.press('z')
-        sleep(0.5)
+        sleep(0.3)
         self.delete_t1t1()
         self.delete_at1t1()
         self.delete_t2t1()
         self.delete_at2t1()
-        sleep(0.5)
+        sleep(0.3)
         self.press('z')
         sleep(1)
     def custom(self):
@@ -475,7 +475,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                     break
                 sleep(0.5)
                 self.delete()
-                sleep(0.5)
+                sleep(1.5)
                 #sleep(1)
             sleep(5)
             self.reequip()
