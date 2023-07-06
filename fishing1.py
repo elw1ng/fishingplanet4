@@ -391,14 +391,13 @@ class ClassName(BaseScript):  # Название класса (должен от
 
     def delete(self):
         self.hold_and_release_sleep('z',0.2)
-        sleep(0.5)
+        sleep(1)
         self.delete_t1t1()
         self.delete_at1t1()
         self.delete_t2t1()
         self.delete_at2t1()
-        sleep(0.5)
-        self.hold_and_release_sleep('z',0.2)
         sleep(1)
+        self.hold_and_release_sleep('z',0.2)
     def custom(self):
         #self.getNextFrame()
         #self.delete()
