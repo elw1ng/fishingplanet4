@@ -213,9 +213,9 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.pkmpress()
         sleep(0.3)
         self.pkmrelease()
-        sleep(0.4)
+        sleep(0.5)
         self.release('alt')
-        sleep(0.4)
+        sleep(0.5)
         self.mousemoveABS(278,  356)
         sleep(0.2)
         self.lkmpress()
@@ -390,14 +390,14 @@ class ClassName(BaseScript):  # Название класса (должен от
                 sleep(timer)
 
     def delete(self):
-        self.press('z')
+        self.hold_and_release_sleep('z',0.1)
         sleep(0.5)
         self.delete_t1t1()
         self.delete_at1t1()
         self.delete_t2t1()
         self.delete_at2t1()
         sleep(0.5)
-        self.press('z')
+        self.hold_and_release_sleep('z',0.1)
         sleep(1)
     def custom(self):
         #self.getNextFrame()
@@ -477,7 +477,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                     break
                 sleep(0.5)
                 self.delete()
-                sleep(1.5)
+                sleep(1)
                 #sleep(1)
             sleep(5)
             self.reequip()
