@@ -472,11 +472,15 @@ class ClassName(BaseScript):  # Название класса (должен от
                         self.lkmrelease()
                         sleep(0.5)
                         self.delete()
-                        sleep(1)
+                        sleep(0.5)
                         self.lkmpress()
                         sleep(0.001)
                         self.lkmrelease()
-                        sleep(1)
+                        sleep(0.5)
+                        self.lkmpress()
+                        sleep(0.001)
+                        self.lkmrelease()
+                        sleep(0.5)
                         break
                 if self.checklost():
                     print("LOST YOUR BAIT")
