@@ -52,6 +52,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.lkmpressed = False
         self.pkmpressed = False
         self.hwnd = win32gui.FindWindow(None, 'Mortal Online 2  ')
+        win32gui.SetForegroundWindow(self.hwnd)
         # hwnd = win32gui.FinwdWindow("UnrealWindow", None) # Fortnite
         self.rect = win32gui.GetWindowRect(self.hwnd)
         #region = rect[0], rect[1], rect[2] - rect[0], rect[3] - rect[1]
@@ -91,18 +92,21 @@ class ClassName(BaseScript):  # Название класса (должен от
 
 
     def lkmpress(self):
+        win32gui.SetForegroundWindow(self.hwnd)
         if not self.lkmpressed:
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
             self.lkmpressed = True
             return True
         return False
     def pkmpress(self):
+        win32gui.SetForegroundWindow(self.hwnd)
         if not self.pkmpressed:
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0)
             self.pkmpressed = True
             return True
         return False
     def pkmrelease(self):
+        win32gui.SetForegroundWindow(self.hwnd)
         if self.pkmpressed:
             win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0)
             self.pkmpressed = False
@@ -110,6 +114,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         return False
 
     def lkmrelease(self):
+        win32gui.SetForegroundWindow(self.hwnd)
         if self.lkmpressed:
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
         self.lkmpressed = False
@@ -369,6 +374,7 @@ class ClassName(BaseScript):  # Название класса (должен от
     def mousemoveABS(self, x, y):
         pos = (x + 8 + self.rect[0], y + 31 + self.rect[1])
         win32api.SetCursorPos(pos)
+        win32gui.SetForegroundWindow(self.hwnd)
     def mousemove(self, x, y, timer=0.01):
 
         n = int(max(abs(x) / 70, abs(y) / 70))
@@ -388,6 +394,7 @@ class ClassName(BaseScript):  # Название класса (должен от
             else:
                 win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, x, y, 0, 0)
                 sleep(timer)
+        win32gui.SetForegroundWindow(self.hwnd)
 
     def delete(self):
         self.hold_and_release_sleep('z',0.2)
