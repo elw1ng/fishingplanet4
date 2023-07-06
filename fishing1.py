@@ -470,18 +470,19 @@ class ClassName(BaseScript):  # Название класса (должен от
                     if counter>5:
                         print("GOT IT")
                         self.lkmrelease()
+                        sleep(0.5)
+                        self.delete()
+                        sleep(0.5)
+                        self.lkmpress()
+                        sleep(0.001)
+                        self.lkmrelease()
+                        sleep(0.5)
                         break
                 if self.checklost():
                     print("LOST YOUR BAIT")
                     losted = True
                     break
-                sleep(0.5)
-                self.delete()
-                sleep(0.5)
-                self.lkmpress()
-                sleep(0.001)
-                self.lkmrelease()
-                sleep(0.5)
+
                 #sleep(1)
             sleep(5)
             self.reequip()
