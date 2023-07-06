@@ -206,56 +206,67 @@ class ClassName(BaseScript):  # Название класса (должен от
             return True
         else:
             return False
-
+    def deleteLoc(self,mxLoc):
+        self.hold('alt')
+        self.mousemoveABS(mxLoc[0],mxLoc[1])
+        sleep(0.2)
+        self.pkmpress()
+        sleep(0.2)
+        self.pkmrelease()
+        self.release('alt')
+        sleep(0.2)
+        self.mousemoveABS(278,  356)
+        sleep(0.2)
+        self.lkmpress()
+        sleep(0.001)
+        self.lkmrelease()
     def delete_t1t1(self):
 
         # Read the images from the file
-        img = self.fullimg[40:280, 0:300]
-        mxLoc = self.imgfind(img, "t1t1.png", "t1t1mask.png",loc=True,conf=0.89)
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "t1t1.png", "t1t1mask.png",loc=True,conf=0.91)
         if  mxLoc is not None:
-            self.hold('alt')
-            self.mousemove(mxLoc[0]-320 +10,mxLoc[1]-320+40 +10)
-            sleep(0.2)
-            self.pkmpress()
-            sleep(0.2)
-            self.pkmrelease()
-            self.release('alt')
-            sleep(0.2)
-            self.press('z')
-            sleep(0.2)
-            self.press('z')
-            sleep(0.2)
-            self.mousemove( 278 - 320,  356- 320)
-            sleep(0.2)
-            self.lkmpress()
-            sleep(0.001)
-            self.lkmrelease()
+            self.deleteLoc(mxLoc)
+            return True
+        else:
+            return False
+    def delete_at2t1(self):
+
+        # Read the images from the file
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.8)
+        if  mxLoc is not None:
+            self.deleteLoc(mxLoc)
+            return True
+        else:
+            return False
+    def delete_t2t1(self):
+
+        # Read the images from the file
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "t2t1.png", "t2t1mask.png",loc=True,conf=0.91)
+        if  mxLoc is not None:
+            self.deleteLoc(mxLoc)
+            return True
+        else:
+            return False
+    def delete_t2t2(self):
+
+        # Read the images from the file
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "t2t2.png", "t2t2mask.png",loc=True,conf=0.85)
+        if  mxLoc is not None:
+            self.deleteLoc(mxLoc)
             return True
         else:
             return False
     def delete_at1t1(self):
 
         # Read the images from the file
-        img = self.fullimg[40:280, 0:200]
-        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.9)
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.8)
         if  mxLoc is not None:
-            self.hold('alt')
-            self.mousemove(mxLoc[0]-320 +10,mxLoc[1]-320+40 +10)
-            sleep(0.2)
-            self.pkmpress()
-            sleep(0.2)
-            self.pkmrelease()
-            self.release('alt')
-            sleep(0.2)
-            self.press('z')
-            sleep(0.2)
-            self.press('z')
-            sleep(0.2)
-            self.mousemove( 278 - 320,  356- 320)
-            sleep(0.2)
-            self.lkmpress()
-            sleep(0.001)
-            self.lkmrelease()
+            self.deleteLoc(mxLoc)
             return True
         else:
             return False
@@ -280,8 +291,8 @@ class ClassName(BaseScript):  # Название класса (должен от
         small_image = cv.imread(small_img)
         mask = cv.imread(mask)
         method = cv.TM_CCOEFF_NORMED
-        result = cv.matchTemplate(large_image, small_image, method, None, mask)
-        # We want the minimum squared difference
+        result = cv.matchTemplate(large_image, small_image, method, None,mask=mask)
+        # We want the minimum squared diff`erence
         _, mx, _, mxLoc = cv.minMaxLoc(result)
         print(mx)
         if mx > conf and mx < 1.1:
@@ -352,6 +363,10 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.equipline()
         sleep(0.6)
         self.press('z')
+
+    def mousemoveABS(self, x, y):
+        pos = (x + 8 + self.rect[0], y + 31 + self.rect[1])
+        win32api.SetCursorPos(pos)
     def mousemove(self, x, y, timer=0.01):
 
         n = int(max(abs(x) / 70, abs(y) / 70))
@@ -373,21 +388,19 @@ class ClassName(BaseScript):  # Название класса (должен от
                 sleep(timer)
 
     def delete(self):
-        sleep(0.2)
         self.press('z')
-        sleep(0.2)
+        sleep(0.5)
         self.delete_t1t1()
-        sleep(0.2)
-        self.press('z')
-        sleep(0.2)
-        self.press('z')
-        sleep(0.2)
         self.delete_at1t1()
-        sleep(0.2)
+        self.delete_t2t1()
+        self.delete_at2t1()
+        sleep(0.5)
         self.press('z')
-        sleep(0.2)
+        sleep(1)
     def custom(self):
-
+        #self.getNextFrame()
+        #self.delete()
+        #sleep(100)
         self.getNextFrame()
         #self.reequip()
         sleep(1)
@@ -460,9 +473,9 @@ class ClassName(BaseScript):  # Название класса (должен от
                     print("LOST YOUR BAIT")
                     losted = True
                     break
-                sleep(0.5)
-                self.delete()
-                sleep(0.5)
+                #sleep(0.5)
+                #self.delete()
+                #`sleep(0.5)
                 #sleep(1)
             sleep(5)
             self.reequip()
