@@ -212,6 +212,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         else:
             return False
     def deleteLoc(self,mxLoc):
+        win32gui.SetForegroundWindow(self.hwnd)
         self.hold('alt')
         self.mousemoveABS(mxLoc[0],mxLoc[1])
         sleep(0.4)
@@ -219,6 +220,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         sleep(0.3)
         self.pkmrelease()
         sleep(0.5)
+        win32gui.SetForegroundWindow(self.hwnd)
         self.release('alt')
         sleep(0.5)
         self.mousemoveABS(278,  356)
