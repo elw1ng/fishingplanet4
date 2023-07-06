@@ -233,7 +233,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "t1t1.png", "t1t1mask.png",loc=True,conf=0.91)
+        mxLoc = self.imgfind(img, "t1t1.png", "t1t1mask.png",loc=True,conf=0.85)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -243,7 +243,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.79)
+        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.76)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -253,7 +253,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "t2t1.png", "t2t1mask.png",loc=True,conf=0.91)
+        mxLoc = self.imgfind(img, "t2t1.png", "t2t1mask.png",loc=True,conf=0.85)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -273,7 +273,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.79)
+        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.76)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
