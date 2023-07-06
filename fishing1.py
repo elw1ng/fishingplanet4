@@ -234,7 +234,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.8)
+        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.66)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -264,7 +264,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.8)
+        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.66)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -473,9 +473,9 @@ class ClassName(BaseScript):  # Название класса (должен от
                     print("LOST YOUR BAIT")
                     losted = True
                     break
-                #sleep(0.5)
-                #self.delete()
-                #`sleep(0.5)
+                sleep(0.5)
+                self.delete()
+                sleep(0.5)
                 #sleep(1)
             sleep(5)
             self.reequip()
