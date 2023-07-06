@@ -477,7 +477,11 @@ class ClassName(BaseScript):  # Название класса (должен от
                     break
                 sleep(0.5)
                 self.delete()
-                sleep(1)
+                sleep(0.5)
+                self.lkmpress()
+                sleep(0.001)
+                self.lkmrelease()
+                sleep(0.5)
                 #sleep(1)
             sleep(5)
             self.reequip()
