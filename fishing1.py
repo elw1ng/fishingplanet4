@@ -209,17 +209,19 @@ class ClassName(BaseScript):  # Название класса (должен от
     def deleteLoc(self,mxLoc):
         self.hold('alt')
         self.mousemoveABS(mxLoc[0],mxLoc[1])
-        sleep(0.2)
+        sleep(0.4)
         self.pkmpress()
-        sleep(0.2)
+        sleep(0.3)
         self.pkmrelease()
+        sleep(0.4)
         self.release('alt')
-        sleep(0.2)
+        sleep(0.4)
         self.mousemoveABS(278,  356)
         sleep(0.2)
         self.lkmpress()
-        sleep(0.001)
+        sleep(0.1)
         self.lkmrelease()
+        sleep(0.4)
     def delete_t1t1(self):
 
         # Read the images from the file
@@ -234,7 +236,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.66)
+        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.79)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -264,7 +266,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.66)
+        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.79)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -389,12 +391,12 @@ class ClassName(BaseScript):  # Название класса (должен от
 
     def delete(self):
         self.press('z')
-        sleep(0.3)
+        sleep(0.5)
         self.delete_t1t1()
         self.delete_at1t1()
         self.delete_t2t1()
         self.delete_at2t1()
-        sleep(0.3)
+        sleep(0.5)
         self.press('z')
         sleep(1)
     def custom(self):
