@@ -243,7 +243,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.75)
+        mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.77)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -253,7 +253,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "t2t1.png", "t2t1mask.png",loc=True,conf=0.85)
+        mxLoc = self.imgfind(img, "t2t1.png", "t2t1mask.png",loc=True,conf=0.86)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -273,7 +273,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
-        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.65)
+        mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.66)
         if  mxLoc is not None:
             self.deleteLoc(mxLoc)
             return True
@@ -408,9 +408,6 @@ class ClassName(BaseScript):  # Название класса (должен от
         sleep(1)
         self.hold_and_release_sleep('z',0.2)
     def custom(self):
-        #self.getNextFrame()
-        #self.delete()
-        #sleep(100)
         self.getNextFrame()
         #self.reequip()
         sleep(1)
@@ -418,13 +415,13 @@ class ClassName(BaseScript):  # Название класса (должен от
         losted = False
         #self.camera.start(region=(8+self.rect[0], 31+self.rect[1], 640+self.rect[0]-8, 640+self.rect[1]-31), target_fps=self.target_fps)
         while True:
-
             while not losted:
 
                 self.lkmpress()
                 sleep(0.001)
                 self.lkmrelease()
                 sleep(3.5)
+                AFKtimer = time()
                 while not losted:
                     self.getNextFrame()
 
@@ -437,9 +434,13 @@ class ClassName(BaseScript):  # Название класса (должен от
                         ###
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640,batch=2,show = False)
                     print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
-                    if Prediction[0].probs.top1 >= 3 and ((Prediction[0].probs.top1conf> 0.65 and Prediction[0].probs.top1 ==3 ) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.75 and Prediction[0].probs.top5[1]>=3)):
+                    if Prediction[0].probs.top1 >= 3 and ((Prediction[0].probs.top1conf> 0.5 and Prediction[0].probs.top1 ==3 ) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.6 and Prediction[0].probs.top5[1]>=3)):
                         print("PULL")
                         self.lkmpress()
+                        break
+                    if time()-AFKtimer > 420:
+                        self.lkmpress()
+                        sleep(3)
                         break
                 if self.checklost():
                     print("LOST YOUR BAIT")
@@ -447,7 +448,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                     break
                 sleep(2)
                 counter =0
-                pkmtimer = time()
+                PULLtimer = time()
                 while not losted:
                     self.getNextFrame()
                     '''
@@ -487,6 +488,11 @@ class ClassName(BaseScript):  # Название класса (должен от
                         sleep(0.5)
                         self.lkmpress()
                         sleep(0.001)
+                        self.lkmrelease()
+                        sleep(0.5)
+                        break
+                    if time() - PULLtimer > 30:
+                        print("TOO LONG TIME PULL")
                         self.lkmrelease()
                         sleep(0.5)
                         break
