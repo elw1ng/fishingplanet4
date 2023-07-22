@@ -431,7 +431,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.getNextFrame()
         #self.reequip()
         sleep(1)
-        Prediction = self.model.predict(source=self.img, device=0, conf=0.2, imgsz=640, batch=4,show=False)
+        Prediction = self.model.predict(source=self.img, device=0, conf=0.2, imgsz=128, batch=4,show=True)
         losted = False
         #self.camera.start(region=(8+self.rect[0], 31+self.rect[1], 640+self.rect[0]-8, 640+self.rect[1]-31), target_fps=self.target_fps)
         while True:
@@ -447,7 +447,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
 
 
-                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640,batch=2,show = False)
+                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=128,batch=2,show = False)
                     print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
                     if Prediction[0].probs.top1 >= 3 and ((Prediction[0].probs.top1conf> 0.75) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.85 and Prediction[0].probs.top5[1]>=3)):
 
@@ -481,7 +481,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         print("LOST YOUR BAIT")
                         losted = True
                         break
-                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=640, batch=2,show=False)
+                    Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=128, batch=2,show=False)
                     print(Prediction[0].probs.top1, Prediction[0].probs.top1conf)
                     if Prediction[0].probs.top1 < 2:
                         counter+=1
