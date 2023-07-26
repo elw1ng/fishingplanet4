@@ -88,7 +88,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
     # Посылает сообщение в телегу
     def send_message_telega(self, text):
-        self.bot.send_message(f"{text} \n when {self.spiritCounter} spirits were fluxed and {self.nospiritCounter} summon fails,\n overall AFKtime = {self.AFKtime} seconds \n sultrasaves: {self.ultrasavecounter}")
+        self.bot.send_message(f"{text}")
 
 
     def lkmpress(self):
@@ -495,11 +495,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         self.lkmrelease()
                         sleep(0.5)
                         self.delete()
-                        sleep(0.5)
-                        self.lkmpress()
-                        sleep(0.001)
-                        self.lkmrelease()
-                        sleep(0.5)
+                        sleep(2)
                         self.lkmpress()
                         sleep(0.001)
                         self.lkmrelease()
