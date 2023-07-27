@@ -450,7 +450,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
 
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=128,show = False)
-                    print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
+                    #print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
                     if Prediction[0].probs.top1 >= 3 and ((Prediction[0].probs.top1conf> 0.9) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.95 and Prediction[0].probs.top5[1]>=3)):
 
                         print("PULL")
@@ -484,7 +484,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         losted = True
                         break
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=128,show=False)
-                    print(Prediction[0].probs.top1, Prediction[0].probs.top1conf)
+                    #print(Prediction[0].probs.top1, Prediction[0].probs.top1conf)
                     if Prediction[0].probs.top1 < 2:
                         counter+=1
 
