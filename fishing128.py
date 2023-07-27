@@ -92,6 +92,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
 
     def lkmpress(self):
+        print("lkmpressed")
         win32gui.SetForegroundWindow(self.hwnd)
         if not self.lkmpressed:
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0)
@@ -118,6 +119,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         if self.lkmpressed:
             win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0)
         self.lkmpressed = False
+        print("lkmreleased")
 
     def spiritdetect(self):
 
