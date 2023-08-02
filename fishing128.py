@@ -439,8 +439,12 @@ class ClassName(BaseScript):  # Название класса (должен от
         Prediction = self.model.predict(source=self.img, device=0, conf=0.2, imgsz=128,show=False)
         losted = False
         #self.camera.start(region=(8+self.rect[0], 31+self.rect[1], 640+self.rect[0]-8, 640+self.rect[1]-31), target_fps=self.target_fps)
+        cyclecounter = 0
         while True:
+
             while not losted:
+                cyclecounter +=1
+                print(f"Cast № {cyclecounter}, pulls: {self.pulls}, fake pulls: {self.fakepulls}\n")
                 if self.menuDetect():
                     self.send_message_telega("MAIN MENU")
                     return False
