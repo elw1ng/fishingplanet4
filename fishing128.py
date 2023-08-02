@@ -45,6 +45,8 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.USER1_ID = self.keys['key17']['value']
         self.USER2_ID = self.keys['key18']['value']
         self.TOKEN = self.keys['key19']['value']
+        self.yPos = int(self.keys['key1']['value'])
+        self.depth = (self.keys['key2']['value'])
         self.target_fps = 59
         self.bot = telega.Telega(self.USER1_ID,self.USER2_ID, self.TOKEN)
         self.SleepMode=False
@@ -92,7 +94,10 @@ class ClassName(BaseScript):  # Название класса (должен от
 
     # Посылает сообщение в телегу
     def send_message_telega(self, text):
-        self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% \n AFKrestarts:{self.afkrestarts}")
+        if self.fakepulls+self.pulls>0:
+            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% \n AFKrestarts:{self.afkrestarts}")
+        else:
+            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}\n AFKrestarts:{self.afkrestarts}")
 
 
     def lkmpress(self):
@@ -157,7 +162,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         else:
             return False
     def equiprod(self):
-
+        self.getNextFrame()
         # Read the images from the file
         img = self.fullimg[80:280, 0:200]
         mxLoc = self.imgfind(img, "rod.png", "rodmask.png",loc=True)
@@ -180,43 +185,48 @@ class ClassName(BaseScript):  # Название класса (должен от
             else:
                 return False
     def equiphook(self):
-
+        self.getNextFrame()
         # Read the images from the file
-        img = self.fullimg[80:280, 0:200]
-        mxLoc = self.imgfind(img, "hook.png", "hookmask.png",loc=True)
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "hook.png", "hookmask.png",loc=True,conf=0.6)
         if  mxLoc is not None:
-            self.mousemove(mxLoc[0]-320 +10,mxLoc[1]-320+80 +10)
-            sleep(0.5)
-            self.pkmpress()
-            sleep(0.1)
-            self.pkmrelease()
+            self.equipLoc(mxLoc)
             return True
         else:
-            mxLoc = self.imgfind(img, "hook1.png", "hook1mask.png", loc=True)
+            mxLoc = self.imgfind(img, "hook1.png", "hook1mask.png", loc=True,conf=0.6)
             if mxLoc is not None:
-                self.mousemove(mxLoc[0] - 320 + 10, mxLoc[1] - 320 + 80 + 10)
-                sleep(0.5)
-                self.pkmpress()
-                sleep(0.1)
-                self.pkmrelease()
+                self.equipLoc(mxLoc)
                 return True
             else:
                 return False
 
     def equipline(self):
-
+        self.getNextFrame()
         # Read the images from the file
-        img = self.fullimg[80:280, 0:200]
-        mxLoc = self.imgfind(img, "line.png", "linemask.png",loc=True)
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "line.png", "linemask.png",loc=True,conf=0.6)
         if  mxLoc is not None:
-            self.mousemove(mxLoc[0]-320 +10,mxLoc[1]-320+80 +10)
-            sleep(0.5)
-            self.pkmpress()
-            sleep(0.1)
-            self.pkmrelease()
+            self.equipLoc(mxLoc)
             return True
         else:
             return False
+
+    def pressLoc(self,mxLoc):
+        win32gui.SetForegroundWindow(self.hwnd)
+        self.mousemoveABS(mxLoc[0], mxLoc[1])
+        sleep(0.5)
+        self.lkmpress()
+        sleep(0.5)
+        self.lkmrelease()
+        sleep(0.5)
+    def equipLoc(self,mxLoc):
+        win32gui.SetForegroundWindow(self.hwnd)
+        self.mousemoveABS(mxLoc[0], mxLoc[1])
+        sleep(0.5)
+        self.pkmpress()
+        sleep(0.5)
+        self.pkmrelease()
+        sleep(0.5)
     def deleteLoc(self,mxLoc):
         win32gui.SetForegroundWindow(self.hwnd)
         self.hold('alt')
@@ -236,7 +246,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.lkmrelease()
         sleep(0.4)
     def delete_t1t1(self):
-
+        self.getNextFrame()
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
         mxLoc = self.imgfind(img, "t1t1.png", "t1t1mask.png",loc=True,conf=0.85)
@@ -246,7 +256,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         else:
             return self.delete_t1t1filter()
     def delete_t1t1filter(self):
-
+        self.getNextFrame()
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
         mxLoc = self.imgfind(img, "t1t1filter.png", "t1t1filtermask.png",loc=True,conf=0.85)
@@ -256,7 +266,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         else:
             return False
     def delete_at2t1(self):
-
+        self.getNextFrame()
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
         mxLoc = self.imgfind(img, "at2t1.png", "at2t1mask.png",loc=True,conf=0.77)
@@ -266,7 +276,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         else:
             return False
     def delete_t2t1(self):
-
+        self.getNextFrame()
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
         mxLoc = self.imgfind(img, "t2t1.png", "t2t1mask.png",loc=True,conf=0.86)
@@ -276,7 +286,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         else:
             return False
     def delete_t2t2(self):
-
+        self.getNextFrame()
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
         mxLoc = self.imgfind(img, "t2t2.png", "t2t2mask.png",loc=True,conf=0.85)
@@ -286,7 +296,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         else:
             return False
     def delete_at1t1(self):
-
+        self.getNextFrame()
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
         mxLoc = self.imgfind(img, "at1t1.png", "at1t1mask.png",loc=True,conf=0.75)
@@ -296,7 +306,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         else:
             return False
     def delete_at1t1filter(self):
-
+        self.getNextFrame()
         # Read the images from the file
         img = self.fullimg[0:300, 0:300]
         mxLoc = self.imgfind(img, "at1t1filter.png", "at1t1filtermask.png",loc=True,conf=0.75)
@@ -381,23 +391,18 @@ class ClassName(BaseScript):  # Название класса (должен от
         else:
             return False
     def reequip(self):
-        self.press('z')
-        sleep(0.1)
-        self.equiprod()
-        sleep(0.3)
-        self.press('z')
-        sleep(2.5)
-        self.press('x')
+        sleep(1)
+        self.hold_and_release_sleep('x',0.2)
+        sleep(2)
+        self.hold_and_release_sleep('i',0.2)
         sleep(1)
         self.equiphook()
-        sleep(0.6)
-        self.press('z')
-        sleep(0.6)
-        self.press('z')
+        sleep(0.5)
+        self.mousemoveABS(320,320)
         sleep(0.5)
         self.equipline()
-        sleep(0.6)
-        self.press('z')
+        sleep(1)
+        self.hold_and_release_sleep('z',0.2)
 
     def mousemoveABS(self, x, y):
         pos = (x + 8 + self.rect[0], y + 31 + self.rect[1])
@@ -433,8 +438,59 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.delete_at2t1()
         sleep(1)
         self.hold_and_release_sleep('z',0.2)
+
+    def changeDepth(self):
+        self.hold_and_release_sleep('z', 0.2)
+        sleep(1)
+        self.mousemoveABS(317,590)
+        sleep(0.5)
+        self.lkmpress()
+        sleep(0.3)
+        self.lkmrelease()
+        sleep(1)
+        for i in range(3):
+            self.hold_and_release_sleep('del', 0.3)
+            sleep(0.5)
+        sleep(1)
+        for i in self.depth:
+            self.hold_and_release_sleep(i, 0.1)
+            sleep(0.6)
+        sleep(1)
+        self.mousemoveABS(320,320)
+        sleep(0.5)
+        self.lkmpress()
+        sleep(0.3)
+        self.lkmrelease()
+        sleep(1)
+        self.hold_and_release_sleep('z', 0.2)
+        sleep(1)
+    def restorefarming(self):
+        self.lkmrelease()
+        for i in range(5):
+            self.press('enter')
+            sleep(5)
+        self.mousemoveABS(125,356)
+        sleep(0.5)
+        self.lkmpress()
+        sleep(0.1)
+        self.lkmrelease()
+        sleep(20)
+        self.mousemoveABS(125, 275)
+        sleep(0.5)
+        self.lkmpress()
+        sleep(0.1)
+        self.lkmrelease()
+        sleep(45)
+        self.hold_and_release_sleep('r',0.3)
+        sleep(2)
+        self.mousemove(0,self.yPos)
+        sleep(1)
+        self.reequip()
+        sleep(1)
+        self.changeDepth()
     def custom(self):
         self.getNextFrame()
+        self.restorefarming()
         #self.reequip()
         sleep(1)
         Prediction = self.model.predict(source=self.img, device=0, conf=0.2, imgsz=128,show=False)
@@ -442,13 +498,17 @@ class ClassName(BaseScript):  # Название класса (должен от
         #self.camera.start(region=(8+self.rect[0], 31+self.rect[1], 640+self.rect[0]-8, 640+self.rect[1]-31), target_fps=self.target_fps)
         cyclecounter = 0
         while True:
-
+            mainmenu = False
+            fakepullpercentage = 0
             while not losted:
                 cyclecounter +=1
-                print(f"Cast № {cyclecounter}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% \n AFKrestarts:{self.afkrestarts}\n")
+                if self.fakepulls+self.pulls>0:
+                    fakepullpercentage = round(100*self.fakepulls/(self.fakepulls+self.pulls),2)
+                print(f"Cast № {cyclecounter}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {fakepullpercentage}% \n AFKrestarts:{self.afkrestarts}\n")
                 if self.menuDetect():
                     self.send_message_telega("MAIN MENU")
-                    return False
+                    self.restorefarming()
+                    sleep(2)
                 self.lkmpress()
                 sleep(0.001)
                 self.lkmrelease()
