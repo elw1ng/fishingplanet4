@@ -476,7 +476,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                     if pulled and pullconfirmcounter>=10:
                         self.pulls+=1
                         break
-                    if pulled and pullconfirmcounter<10 and time() -pulledtimer>1.6:
+                    if pulled and pullconfirmcounter<10 and time() -pulledtimer>1.8:
                         print("fake pull reset")
                         self.fakepulls += 1
                         self.lkmrelease()
