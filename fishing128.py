@@ -62,6 +62,9 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.fullimg = None
         self.fpstimer= time()
 
+        self.pulls = 0
+        self.fakepulls = 0
+
     def getNextFrame(self):
 
         while time() - self.fpstimer < (1 / self.target_fps):
@@ -88,7 +91,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
     # Посылает сообщение в телегу
     def send_message_telega(self, text):
-        self.bot.send_message(f"{text}")
+        self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% ")
 
 
     def lkmpress(self):
@@ -447,6 +450,9 @@ class ClassName(BaseScript):  # Название класса (должен от
                 sleep(3.5)
                 AFKtimer = time()
                 afkrestart = False
+                pulled = False
+                pulledtimer = time()
+                pullconfirmcounter = 0
                 while not losted:
                     self.getNextFrame()
 
@@ -455,10 +461,22 @@ class ClassName(BaseScript):  # Название класса (должен от
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=128,show = False)
                     #print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
                     if Prediction[0].probs.top1 >= 3 and ((Prediction[0].probs.top1conf> 0.95) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.97 and Prediction[0].probs.top5[1]>=3)):
-
-                        print("PULL")
-                        self.lkmpress()
+                        if not pulled:
+                            pulled = True
+                            print("PULL")
+                            self.lkmpress()
+                            pulledtimer = time()
+                            pullconfirmcounter = 0
+                        if pulled and time() -pulledtimer > 0.7:
+                            pullconfirmcounter+=1
+                    if pulled and pullconfirmcounter>=10:
+                        self.pulls+=1
                         break
+                    if pulled and pullconfirmcounter<10 and time() -pulledtimer>1.6:
+                        self.fakepulls += 1
+                        self.lkmrelease()
+                        pulled = False
+
                     if time()-AFKtimer > 300:
                         self.lkmpress()
                         sleep(4)
