@@ -446,6 +446,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                 self.lkmrelease()
                 sleep(3.5)
                 AFKtimer = time()
+                afkrestart = False
                 while not losted:
                     self.getNextFrame()
 
@@ -453,15 +454,21 @@ class ClassName(BaseScript):  # Название класса (должен от
 
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=128,show = False)
                     #print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
-                    if Prediction[0].probs.top1 >= 3 and ((Prediction[0].probs.top1conf> 0.9) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.95 and Prediction[0].probs.top5[1]>=3)):
+                    if Prediction[0].probs.top1 >= 3 and ((Prediction[0].probs.top1conf> 0.95) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.97 and Prediction[0].probs.top5[1]>=3)):
 
                         print("PULL")
                         self.lkmpress()
                         break
-                    if time()-AFKtimer > 420:
+                    if time()-AFKtimer > 300:
                         self.lkmpress()
-                        sleep(3)
+                        sleep(4)
+                        self.lkmrelease()
+                        sleep(0.3)
+                        self.send_message_telega("nema poklyovki 5 min")
+                        afkrestart = True
                         break
+                if afkrestart:
+                    continue
                 sleep(1.5)
                 counter =0
                 PULLtimer = time()
@@ -498,10 +505,6 @@ class ClassName(BaseScript):  # Название класса (должен от
                         sleep(0.5)
                         self.delete()
                         sleep(2)
-                        self.lkmpress()
-                        sleep(0.001)
-                        self.lkmrelease()
-                        sleep(0.5)
                         break
                     if time() - PULLtimer > 30:
                         print("TOO LONG TIME PULL")
