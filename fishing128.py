@@ -64,6 +64,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
         self.pulls = 0
         self.fakepulls = 0
+        self.afkrestarts = 0
 
     def getNextFrame(self):
 
@@ -91,7 +92,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
     # Посылает сообщение в телегу
     def send_message_telega(self, text):
-        self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% ")
+        self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% \n AFKrestarts:{self.afkrestarts}")
 
 
     def lkmpress(self):
@@ -444,7 +445,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
             while not losted:
                 cyclecounter +=1
-                print(f"Cast № {cyclecounter}, pulls: {self.pulls}, fake pulls: {self.fakepulls}\n")
+                print(f"Cast № {cyclecounter}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% \n AFKrestarts:{self.afkrestarts}\n")
                 if self.menuDetect():
                     self.send_message_telega("MAIN MENU")
                     return False
@@ -489,6 +490,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         sleep(0.3)
                         self.send_message_telega("nema poklyovki 5 min")
                         afkrestart = True
+                        self.afkrestarts+=1
                         break
                 if afkrestart:
                     continue
