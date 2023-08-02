@@ -490,7 +490,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.changeDepth()
     def custom(self):
         self.getNextFrame()
-        #self.restorefarming()
+        self.restorefarming()
         #self.reequip()
         sleep(1)
         Prediction = self.model.predict(source=self.img, device=0, conf=0.2, imgsz=128,show=False)
