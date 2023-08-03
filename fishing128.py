@@ -497,18 +497,26 @@ class ClassName(BaseScript):  # Название класса (должен от
         losted = False
         #self.camera.start(region=(8+self.rect[0], 31+self.rect[1], 640+self.rect[0]-8, 640+self.rect[1]-31), target_fps=self.target_fps)
         cyclecounter = 0
+        mainmenu = False
         while True:
-            mainmenu = False
             fakepullpercentage = 0
             while not losted:
                 cyclecounter +=1
                 if self.fakepulls+self.pulls>0:
                     fakepullpercentage = round(100*self.fakepulls/(self.fakepulls+self.pulls),2)
                 print(f"Cast № {cyclecounter}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {fakepullpercentage}% \n AFKrestarts:{self.afkrestarts}\n")
-                if self.menuDetect():
-                    self.send_message_telega("MAIN MENU")
+                while self.menuDetect():
+                    if not mainmenu:
+                        self.send_message_telega("MAIN MENU")
+                    else:
+                        sleep(2700)
+                    mainmenu = True
                     self.restorefarming()
+
                     sleep(2)
+                if mainmenu:
+                    self.send_message_telega("restored from main menu")
+                    mainmenu = False
                 self.lkmpress()
                 sleep(0.001)
                 self.lkmrelease()
