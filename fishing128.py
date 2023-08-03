@@ -533,7 +533,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
                     Prediction = self.model.predict(source=self.img, device=0, conf=0.01, imgsz=128,show = False)
                     #print(Prediction[0].probs.top1,Prediction[0].probs.top1conf)
-                    if Prediction[0].probs.top1 >= 3 and ((Prediction[0].probs.top1conf> 0.95) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.97 and Prediction[0].probs.top5[1]>=3)):
+                    if Prediction[0].probs.top1 >= 3 and ((Prediction[0].probs.top1conf> 0.93) or (Prediction[0].probs.top1conf + Prediction[0].probs.top5conf[1]> 0.95 and Prediction[0].probs.top5[1]>=3)):
                         if not pulled:
                             pulled = True
                             print("PULL")
