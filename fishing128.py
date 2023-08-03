@@ -509,7 +509,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                     if not mainmenu:
                         self.send_message_telega("MAIN MENU")
                     else:
-                        sleep(2700)
+                        sleep(900)
                     mainmenu = True
                     self.restorefarming()
 
