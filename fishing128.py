@@ -505,7 +505,9 @@ class ClassName(BaseScript):  # Название класса (должен от
             self.hold_and_release_sleep('z', 0.2)
         sleep(1)
     def restorefarming(self):
+        sleep(15)
         self.lkmrelease()
+        sleep(15)
         for i in range(5):
             self.press('enter')
             sleep(5)
@@ -514,7 +516,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.lkmpress()
         sleep(0.1)
         self.lkmrelease()
-        sleep(20)
+        sleep(40)
         self.mousemoveABS(125, 275)
         sleep(0.5)
         self.lkmpress()
