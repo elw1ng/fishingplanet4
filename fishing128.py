@@ -67,6 +67,8 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.pulls = 0
         self.fakepulls = 0
         self.afkrestarts = 0
+        self.herbeustimes = 0
+        self.bottomtimes = 0
 
     def getNextFrame(self):
 
@@ -95,9 +97,9 @@ class ClassName(BaseScript):  # Название класса (должен от
     # Посылает сообщение в телегу
     def send_message_telega(self, text):
         if self.fakepulls+self.pulls>0:
-            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% \n AFKrestarts:{self.afkrestarts} , pulls per minute: {60*self.pulls/(time()-self.inittimer)}, final depth: {self.depth}")
+            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% \n AFKrestarts:{self.afkrestarts} , pulls per minute: {60*self.pulls/(time()-self.inittimer)}, final depth: {self.depth}\n herbeustimes: {self.herbeustimes}, bottom times {self.bottomtimes}, working time: {(time()-self.inittimer)/3600} hours")
         else:
-            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}\n AFKrestarts:{self.afkrestarts} , pulls per minute: {60*self.pulls/(time()-self.inittimer)}, final depth: {self.depth}")
+            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}\n AFKrestarts:{self.afkrestarts} , pulls per minute: {60*self.pulls/(time()-self.inittimer)}, final depth: {self.depth}\n herbeustimes: {self.herbeustimes}, bottom times {self.bottomtimes}, working time: {(time()-self.inittimer)/3600} hours")
 
 
     def lkmpress(self):
@@ -364,7 +366,8 @@ class ClassName(BaseScript):  # Название класса (должен от
         result = cv.matchTemplate(large_image, small_image, method, None,mask=mask)
         # We want the minimum squared diff`erence
         _, mx, _, mxLoc = cv.minMaxLoc(result)
-        print(mx)
+        if mx > conf-0.2:
+            print(mx)
         if mx > conf and mx < 1.1:
             self.NoAnsweredThecalltime = time()
             if loc:
@@ -466,6 +469,7 @@ class ClassName(BaseScript):  # Название класса (должен от
             self.delete_twig()
         if self.delete_herbeus():
             self.depth=str(int(self.depth)+1)
+            self.herbeustimes+=1
             self.changeDepth(noz = True)
         sleep(1)
         self.hold_and_release_sleep('z',0.2)
@@ -540,7 +544,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                 cyclecounter +=1
                 if self.fakepulls+self.pulls>0:
                     fakepullpercentage = round(100*self.fakepulls/(self.fakepulls+self.pulls),2)
-                print(f"Cast № {cyclecounter}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {fakepullpercentage}% \n AFKrestarts:{self.afkrestarts}\n")
+                print(f"Cast № {cyclecounter}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {fakepullpercentage}% \n  AFKrestarts:{self.afkrestarts} , pulls per minute: {60*self.pulls/(time()-self.inittimer)}, final depth: {self.depth}\n herbeustimes: {self.herbeustimes}, bottom times {self.bottomtimes}, working time: {(time()-self.inittimer)/3600} hours\n")
                 while self.menuDetect():
                     if not mainmenu:
                         self.send_message_telega("MAIN MENU")
@@ -568,6 +572,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         #self.send_message_telega("your hook is on bottom")
                         self.depth = str(int(self.depth)-1)
                         self.changeDepth()
+                        self.bottomtimes+=1
                         bottomrestart = True
                         break
                 if bottomrestart:
