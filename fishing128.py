@@ -63,7 +63,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.img = None
         self.fullimg = None
         self.fpstimer= time()
-
+        self.inittimer = time()
         self.pulls = 0
         self.fakepulls = 0
         self.afkrestarts = 0
@@ -95,9 +95,9 @@ class ClassName(BaseScript):  # Название класса (должен от
     # Посылает сообщение в телегу
     def send_message_telega(self, text):
         if self.fakepulls+self.pulls>0:
-            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% \n AFKrestarts:{self.afkrestarts}")
+            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}, fakepull percentage: {round(100*self.fakepulls/(self.fakepulls+self.pulls),2)}% \n AFKrestarts:{self.afkrestarts} , pulls per minute: {60*self.pulls/(time()-self.inittimer)}, final depth: {self.depth}")
         else:
-            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}\n AFKrestarts:{self.afkrestarts}")
+            self.bot.send_message(f"{text}, pulls: {self.pulls}, fake pulls: {self.fakepulls}\n AFKrestarts:{self.afkrestarts} , pulls per minute: {60*self.pulls/(time()-self.inittimer)}, final depth: {self.depth}")
 
 
     def lkmpress(self):
@@ -140,14 +140,14 @@ class ClassName(BaseScript):  # Название класса (должен от
             return True
         else:
             return False
-    def checknospirit(self):
+    def checkbottom(self):
 
         # Read the images from the file
         self.getNextFrame()
-        img = self.img[358:372,223:244]
-        if self.imgfind(img, "nospirit.png", "nospiritmask.png"):
+        img = self.fullimg[355:375,222:250]
+        if self.imgfind(img, "bottom.png", "bottommask.png",conf = 0.6):
             self.getNextFrame()
-            if self.imgfind(img, "nospirit.png", "nospiritmask.png"):
+            if self.imgfind(img, "bottom.png", "bottommask.png",conf = 0.6):
                 return True
             else:
                 return False
@@ -245,6 +245,31 @@ class ClassName(BaseScript):  # Название класса (должен от
         sleep(0.1)
         self.lkmrelease()
         sleep(0.4)
+    def delete_herbeus(self):
+        self.getNextFrame()
+        # Read the images from the file
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "herbeus.png", "herbeusmask.png",loc=True,conf=0.9)
+        if  mxLoc is not None:
+            self.deleteLoc(mxLoc)
+            return True
+    def delete_canna(self):
+        self.getNextFrame()
+        # Read the images from the file
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "canna.png", "cannamask.png",loc=True,conf=0.9)
+        if  mxLoc is not None:
+            self.deleteLoc(mxLoc)
+            return True
+    def delete_twig(self):
+        self.getNextFrame()
+        # Read the images from the file
+        img = self.fullimg[0:300, 0:300]
+        mxLoc = self.imgfind(img, "twig.png", "twigmask.png",loc=True,conf=0.9)
+        if  mxLoc is not None:
+            self.deleteLoc(mxLoc)
+            return True
+
     def delete_t1t1(self):
         self.getNextFrame()
         # Read the images from the file
@@ -436,11 +461,18 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.delete_at1t1()
         self.delete_t2t1()
         self.delete_at2t1()
+        if self.pulls % 25 == 0:
+            self.delete_canna()
+            self.delete_twig()
+        if self.delete_herbeus():
+            self.depth=str(int(self.depth)+1)
+            self.changeDepth(noz = True)
         sleep(1)
         self.hold_and_release_sleep('z',0.2)
 
-    def changeDepth(self):
-        self.hold_and_release_sleep('z', 0.2)
+    def changeDepth(self,noz = False):
+        if not noz:
+            self.hold_and_release_sleep('z', 0.2)
         sleep(1)
         self.mousemoveABS(317,590)
         sleep(0.5)
@@ -449,8 +481,11 @@ class ClassName(BaseScript):  # Название класса (должен от
         self.lkmrelease()
         sleep(1)
         for i in range(3):
-            self.hold_and_release_sleep('del', 0.3)
-            sleep(0.5)
+            self.hold_and_release_sleep('del', 0.2)
+            sleep(0.2)
+        for i in range(3):
+            self.hold_and_release_sleep('backspace', 0.2)
+            sleep(0.2)
         sleep(1)
         for i in self.depth:
             self.hold_and_release_sleep(i, 0.1)
@@ -462,7 +497,8 @@ class ClassName(BaseScript):  # Название класса (должен от
         sleep(0.3)
         self.lkmrelease()
         sleep(1)
-        self.hold_and_release_sleep('z', 0.2)
+        if not noz:
+            self.hold_and_release_sleep('z', 0.2)
         sleep(1)
     def restorefarming(self):
         self.lkmrelease()
@@ -520,7 +556,22 @@ class ClassName(BaseScript):  # Название класса (должен от
                 self.lkmpress()
                 sleep(0.001)
                 self.lkmrelease()
-                sleep(3.5)
+                checkbottomtimer = time()
+                bottomrestart = False
+                while time()-checkbottomtimer < 3.5:
+                    if self.checkbottom():
+                        sleep(1)
+                        self.lkmpress()
+                        sleep(4)
+                        self.lkmrelease()
+                        sleep(0.3)
+                        #self.send_message_telega("your hook is on bottom")
+                        self.depth = str(int(self.depth)-1)
+                        self.changeDepth()
+                        bottomrestart = True
+                        break
+                if bottomrestart:
+                    continue
                 AFKtimer = time()
                 afkrestart = False
                 pulled = False
@@ -556,7 +607,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                         sleep(4)
                         self.lkmrelease()
                         sleep(0.3)
-                        self.send_message_telega("nema poklyovki 5 min")
+                        #self.send_message_telega("nema poklyovki 5 min")
                         afkrestart = True
                         self.afkrestarts+=1
                         break
