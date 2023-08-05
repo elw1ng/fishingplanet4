@@ -478,7 +478,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         if not noz:
             self.hold_and_release_sleep('z', 0.2)
         sleep(1)
-        self.mousemoveABS(317,590)
+        self.mousemoveABS(320,590)
         sleep(0.5)
         self.lkmpress()
         sleep(0.3)
