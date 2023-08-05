@@ -147,9 +147,9 @@ class ClassName(BaseScript):  # Название класса (должен от
         # Read the images from the file
         self.getNextFrame()
         img = self.fullimg[355:375,222:250]
-        if self.imgfind(img, "bottom.png", "bottommask.png",conf = 0.6):
+        if self.imgfind(img, "bottom.png", "bottommask.png",conf = 0.8):
             self.getNextFrame()
-            if self.imgfind(img, "bottom.png", "bottommask.png",conf = 0.6):
+            if self.imgfind(img, "bottom.png", "bottommask.png",conf = 0.8):
                 return True
             else:
                 return False
