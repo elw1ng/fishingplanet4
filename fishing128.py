@@ -542,6 +542,7 @@ class ClassName(BaseScript):  # Название класса (должен от
         mainmenu = False
         while True:
             fakepullpercentage = 0
+            bottomrow = 0
             while not losted:
                 cyclecounter +=1
                 if self.fakepulls+self.pulls>0:
@@ -564,6 +565,7 @@ class ClassName(BaseScript):  # Название класса (должен от
                 self.lkmrelease()
                 checkbottomtimer = time()
                 bottomrestart = False
+
                 while time()-checkbottomtimer < 3.5:
                     if self.checkbottom():
                         sleep(1)
@@ -572,13 +574,16 @@ class ClassName(BaseScript):  # Название класса (должен от
                         self.lkmrelease()
                         sleep(0.3)
                         #self.send_message_telega("your hook is on bottom")
-                        self.depth = str(int(self.depth)-1)
-                        self.changeDepth()
                         self.bottomtimes+=1
+                        bottomrow+=1
+                        if bottomrow > 1:
+                            self.depth = str(int(self.depth) - 1)
+                            self.changeDepth()
                         bottomrestart = True
                         break
                 if bottomrestart:
                     continue
+                bottomrow = 0
                 AFKtimer = time()
                 afkrestart = False
                 pulled = False
