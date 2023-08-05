@@ -468,8 +468,8 @@ class ClassName(BaseScript):  # Название класса (должен от
             self.delete_canna()
             self.delete_twig()
         if self.delete_herbeus():
-            self.depth=str(int(self.depth)+1)
-            self.herbeustimes+=1
+            self.depth = str(int(self.depth)+1)
+            self.herbeustimes += 1
             self.changeDepth(noz = True)
         sleep(1)
         self.hold_and_release_sleep('z',0.2)
