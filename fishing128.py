@@ -655,7 +655,7 @@ class ClassName(BaseScript):  # Название класса (должен от
 
                     else:
                         counter =0
-                    if counter>15:
+                    if counter>45:
                         print("GOT IT")
                         self.lkmrelease()
                         sleep(0.5)
