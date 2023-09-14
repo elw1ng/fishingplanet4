@@ -554,7 +554,8 @@ class ClassName(BaseScript):  # Название класса (должен от
                     else:
                         sleep(900)
                     mainmenu = True
-                    self.restorefarming()
+                    return False
+                    #self.restorefarming()
 
                     sleep(2)
                 if mainmenu:
